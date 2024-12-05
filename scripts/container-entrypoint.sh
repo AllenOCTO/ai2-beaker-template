@@ -35,7 +35,7 @@ pip install .
 cd ..
 
 # Convert your notebook to a Python script
-jupyter nbconvert --to python ./src/work.ipynb
+jupyter nbconvert --to python ./work.ipynb
 
 # Run the model
-python ./model/work.py
+python ./work.py
