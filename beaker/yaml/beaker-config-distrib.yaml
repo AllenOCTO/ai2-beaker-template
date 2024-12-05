@@ -1,0 +1,48 @@
+version: v2
+budget: ai2/reviz 
+description: <DESCRIPTION> # user defined
+tasks:
+  - name: training
+    replicas: <NUMBER_OF_NODES> # user defined
+    leaderSelection: false
+    hostNetworking: true
+    propagateFailure: true
+    propagatePreemption: true
+    synchronizedStartTimeout: 15m
+    image:
+      beaker: <BEAKER_USERNAME>/<IMAGE_NAME> # user defined
+    datasets:
+      - mountPath: /usr/src/app/enformer-aws
+        source:
+          weka: <WEKA_BUCKET> # user defined
+        subPath: <WEKA_PREFIX> # user defined
+    envVars:
+    - name: BEAKER_TOKEN
+      secret: <BEAKER_API_TOKEN> # user defined
+    - name: AWS_ACCESS_KEY_ID
+      secret: <AWS_ACCESS_KEY_ID> # user defined
+    - name: AWS_SECRET_ACCESS_KEY
+      secret: <AWS_SECRET_ACCESS_KEY> # user defined
+    # uncomment if running on jupiter
+    # - name: NCCL_SOCKET_IFNAME
+    #   value: ib
+    # - name: NCCL_IB_HCA
+    #   value: ^=mlx5_bond_0
+    # - name: NCCL_DEBUG
+    #   value: INFO    
+    # uncomment if running on saturn
+    - name: NCCL_SOCKET_IFNAME
+      value: bond0
+    - name: NCCL_DEBUG
+      value: INFO  
+    result:
+      # Beaker will capture anything that's written to this location and store it in the results
+      # dataset. This location is required to be a directory, not a file.
+      path: /output
+    resources:
+      gpuCount: <GPU_COUNT> # user defined, 8 max
+    context:
+      priority: normal
+      preemptible: true
+    constraints:
+      cluster: [ ai2/saturn-cirrascale-2 ]

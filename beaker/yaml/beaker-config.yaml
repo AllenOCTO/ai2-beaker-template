@@ -1,0 +1,21 @@
+version: v2
+budget: ai2/reviz # we were authorized to use this budget but it may change
+description: <DESCRIPTION> # user defined
+tasks:
+  - name: training
+    image:
+      beaker: <BEAKER_USERNAME>/<IMAGE_NAME> # user defined
+    datasets:
+      - mountPath: /usr/src/app/enformer-aws
+        source:
+          weka: <WEKA_BUCKET> # user defined
+        subPath: <WEKA_PREFIX> # user defined
+    result:
+      path: /output
+    resources:
+      gpuCount: 1 # if you need more than 1 gpu you will need to change
+    context:
+      priority: normal
+      preemptible: true
+    constraints:
+      cluster: [ ai2/saturn-cirrascale ] # change the cluster to the one you want to use (differences in gpu, preemption, etc)
