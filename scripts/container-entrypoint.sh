@@ -16,7 +16,7 @@ RETRIES=3
 DELAY=5
 for attempt in $(seq 1 $RETRIES); do
     set +e  
-    pip install -r ./requirements.txt && break
+    pip install -r ./requirements.txt && pip install jupyter && break
     set -e
     echo "Retrying installs ($attempt/$RETRIES)..."
     sleep $DELAY

@@ -39,5 +39,6 @@ WORKDIR /usr/src/app
 # ATTENTION: You will need to copy files from the build context.
 COPY container-entrypoint.sh .
 RUN chmod +x container-entrypoint.sh
+COPY requirements.txt .
 
 CMD ["/usr/src/app/container-entrypoint.sh"]
