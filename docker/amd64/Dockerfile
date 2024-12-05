@@ -38,6 +38,7 @@ WORKDIR /usr/src/app
 # Setup the image
 # ATTENTION: You will need to copy files from the build context.
 COPY container-entrypoint.sh .
+COPY model/work.ipynb .
 RUN chmod +x container-entrypoint.sh
 COPY requirements.txt .
 
