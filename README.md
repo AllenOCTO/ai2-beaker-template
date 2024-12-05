@@ -1,9 +1,14 @@
 # Deploying to AI2's Cluster via Beaker
 
-AI2 offers a gpu job queueing system through Beaker. This guide will walk through how to containerize this model and deploy through beaker.
+AI2 offers a gpu job queueing system through Beaker. This repo templatizes and abstracts away some complexity in managing the beaker deployments.
+
+Generally, here is how you should incorporate your model into this repository:
+1. Place your model in the `model/` folder
+2. Edit the `build.sh` [here](scripts/build.sh) to specify what files are relevant to your image build.  At build time these files will get copied into the build context directory `./artifacts`, which is cleared out each time an image build is performed.
+3. Edit the `Dockerfile` [here](docker/amd64/Dockerfile) to specify two important things. First, some base installations (python version, any system packages, etc.). Second, what files you want to copy into the image from the build context, and where specifically these should go inside the image filesystem.
+4. Edit the `container-entrypoint.sh` [here](scripts/container-entrypoint.sh) to specify anything you want to install at runtime, and what should be called when the container starts.
 
 ## Prerequisites
-
 
 - [ ] AI2 access (access to their okta portal and beaker)
 - [ ] tailscale vpn setup
