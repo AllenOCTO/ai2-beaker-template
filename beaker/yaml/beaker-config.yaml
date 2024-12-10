@@ -19,3 +19,6 @@ tasks:
       preemptible: true
     constraints:
       cluster: [ ai2/saturn-cirrascale ] # change the cluster to the one you want to use (differences in gpu, preemption, etc)
+    envVars:
+    - name: BEAKER_TOKEN
+      secret: <BEAKER_API_TOKEN> # user defined

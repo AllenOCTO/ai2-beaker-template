@@ -40,7 +40,7 @@ The deployment process to a cluster is like this:
 
 ## Specific Guide
 
-### Deployment to Beaker
+### Non-Distributed Deployment to Beaker
 
 All commands should be run from the root of this repo.
 
@@ -56,7 +56,7 @@ source ./scripts/s3.sh
 3. Kick off a beaker job to conduct the transfer.
 
 ```
-beaker experiment create s3.yaml 
+beaker experiment create beaker/yaml/s3.yaml
 ```
 
 4. Build the docker image. This build will produce an image named `dna-seq-models`. Once this image is pushed into Beaker, it does not allow you to overwrite it. So if this becomes an issue (changes to the model necessitating new image), you will need to edit the script to use a different image name.
@@ -71,14 +71,18 @@ beaker experiment create s3.yaml
 beaker image create --name my-image-name my-image-name
 ```
 
-6. Configure the experiment to your needs by editing `./beaker/yaml/beaker-config.yaml`. Then run the command to create the experiment.
+6. Edit the [python script](model/work.ipynb) to fill in the beaker related setup. If not using distributed training, you can comment out all related service discovery steps (first notebook cell).
+
+7. Configure the experiment to your needs by editing `./beaker/yaml/beaker-config.yaml`. Then run the command to create the experiment.
 ```
 beaker experiment create ./beaker/yaml/beaker-config.yaml
 ```
 
-### Distributed Training with Beaker
+### Distributed Deployment to Beaker
 
-You can use the [beaker distributed config](beaker/yaml/beaker-config-distrib.yaml) to deploy your distributed experiment. However, you will need to set some important things up correctly.
+Distributed deployments will use the same steps as above, but before you repeat the above commands, address this distributed specifc setup.
+
+You can use the [beaker distributed config](beaker/yaml/beaker-config-distrib.yaml) to deploy your distributed experiment. You will need to set some important things up correctly for this to work.
 1. NCCL / IB Env Vars: Depending on what cluster you are running on, you will need to comment / uncomment the correct block in the yaml.
 2. Replica Count: The number of replicas (nodes).
 3. GPU Count: The number of GPUs per node

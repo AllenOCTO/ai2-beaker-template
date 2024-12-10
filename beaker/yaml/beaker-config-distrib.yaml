@@ -16,13 +16,11 @@ tasks:
         source:
           weka: <WEKA_BUCKET> # user defined
         subPath: <WEKA_PREFIX> # user defined
+    #  if you want to upload secrets through something like AWS S3, you will
+    #  need to configure AWS secrets in Beaker and set them below
     envVars:
     - name: BEAKER_TOKEN
       secret: <BEAKER_API_TOKEN> # user defined
-    - name: AWS_ACCESS_KEY_ID
-      secret: <AWS_ACCESS_KEY_ID> # user defined
-    - name: AWS_SECRET_ACCESS_KEY
-      secret: <AWS_SECRET_ACCESS_KEY> # user defined
     # uncomment if running on jupiter
     # - name: NCCL_SOCKET_IFNAME
     #   value: ib
